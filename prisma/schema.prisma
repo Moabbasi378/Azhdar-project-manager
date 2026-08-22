@@ -1,0 +1,368 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Users & Teams ────────────────────────────────────────────────
+
+enum SystemRole {
+  OWNER
+  PROJECT_MANAGER
+  DEVELOPER
+  VIEWER
+}
+
+enum UserStatus {
+  ACTIVE
+  DISABLED
+}
+
+model User {
+  id           String     @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String     @unique
+  passwordHash String
+  avatarColor  String     @default("#6366f1")
+  role         SystemRole @default(DEVELOPER)
+  status       UserStatus @default(ACTIVE)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  assignedIssues      Issue[]         @relation("Assignee")
+  reportedIssues      Issue[]         @relation("Reporter")
+  comments            Comment[]
+  timeEntries         TimeEntry[]
+  activities          ActivityLog[]
+  notifications       Notification[]
+  savedFilters        SavedFilter[]
+  teams               TeamMember[]
+  ledTeams            Team[]          @relation("TeamLeader")
+  projectMemberships  ProjectMember[]
+  ownedProjects       Project[]       @relation("ProjectOwner")
+}
+
+model Team {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  leaderId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  leader   User?        @relation("TeamLeader", fields: [leaderId], references: [id], onDelete: SetNull)
+  members  TeamMember[]
+  projects Project[]
+}
+
+model TeamMember {
+  teamId  String
+  userId  String
+  joinedAt DateTime @default(now())
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@index([userId])
+}
+
+// ─── Projects ─────────────────────────────────────────────────────
+
+enum ProjectStatusState {
+  ACTIVE
+  ARCHIVED
+  COMPLETED
+}
+
+enum ProjectRole {
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+model Project {
+  id          String             @id @default(cuid())
+  key         String             @unique
+  name        String
+  description String?
+  icon        String             @default("🚀")
+  state       ProjectStatusState @default(ACTIVE)
+  startDate   DateTime?
+  endDate     DateTime?
+  teamId      String?
+  ownerId     String
+  issueSeq    Int                @default(0)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  owner    User            @relation("ProjectOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  team     Team?           @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  members  ProjectMember[]
+  statuses ProjectStatus[]
+  labels   Label[]
+  sprints  Sprint[]
+  issues   Issue[]
+  filters  SavedFilter[]
+
+  @@index([teamId])
+}
+
+model ProjectMember {
+  projectId String
+  userId    String
+  role      ProjectRole @default(MEMBER)
+  createdAt DateTime    @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@index([userId])
+}
+
+enum StatusCategory {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+model ProjectStatus {
+  id        String         @id @default(cuid())
+  projectId String
+  name      String
+  category  StatusCategory @default(TODO)
+  order     Int            @default(0)
+  isDefault Boolean        @default(false)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  issues  Issue[]
+
+  @@unique([projectId, name])
+  @@index([projectId, order])
+}
+
+model Label {
+  id        String @id @default(cuid())
+  projectId String
+  name      String
+  color     String @default("#64748b")
+
+  project Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  issues  IssueLabel[]
+
+  @@unique([projectId, name])
+}
+
+// ─── Sprints ──────────────────────────────────────────────────────
+
+enum SprintState {
+  PLANNED
+  ACTIVE
+  COMPLETED
+}
+
+model Sprint {
+  id        String      @id @default(cuid())
+  projectId String
+  name      String
+  goal      String?
+  startDate DateTime?
+  endDate   DateTime?
+  state     SprintState @default(PLANNED)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  issues  Issue[]
+
+  @@index([projectId, state])
+}
+
+// ─── Issues ───────────────────────────────────────────────────────
+
+enum IssueType {
+  EPIC
+  STORY
+  TASK
+  BUG
+  SUBTASK
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model Issue {
+  id          String   @id @default(cuid())
+  projectId   String
+  number      Int
+  key         String   @unique
+  title       String
+  description String?
+  type        IssueType @default(TASK)
+  priority    Priority @default(MEDIUM)
+  order       String   @default("a0")
+  storyPoints Int?
+  estimatedMinutes Int?
+  loggedMinutes Int      @default(0)
+
+  statusId     String?
+  epicId       String?
+  sprintId     String?
+  parentId     String?
+  assigneeId   String?
+  reporterId   String?
+
+  startAt     DateTime?
+  dueAt       DateTime?
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  project  Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  status   ProjectStatus? @relation(fields: [statusId], references: [id], onDelete: SetNull)
+  epic     Issue?         @relation("EpicChildren", fields: [epicId], references: [id], onDelete: SetNull)
+  children Issue[]        @relation("EpicChildren")
+  parent   Issue?         @relation("Subtasks", fields: [parentId], references: [id], onDelete: Cascade)
+  subtasks Issue[]        @relation("Subtasks")
+  sprint   Sprint?        @relation(fields: [sprintId], references: [id], onDelete: SetNull)
+  assignee User?          @relation("Assignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  reporter User?          @relation("Reporter", fields: [reporterId], references: [id], onDelete: SetNull)
+
+  labels      IssueLabel[]
+  comments    Comment[]
+  timeEntries TimeEntry[]
+  activities  ActivityLog[]
+
+  @@unique([projectId, number])
+  @@index([projectId, type])
+  @@index([projectId, sprintId])
+  @@index([projectId, statusId])
+  @@index([assigneeId])
+  @@index([epicId])
+  @@index([parentId])
+  @@index([dueAt])
+}
+
+model IssueLabel {
+  issueId String
+  labelId String
+
+  issue Issue @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  label Label @relation(fields: [labelId], references: [id], onDelete: Cascade)
+
+  @@unique([issueId, labelId])
+  @@index([labelId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  issueId   String
+  authorId  String
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  issue  Issue @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  author User  @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([issueId, createdAt])
+}
+
+model TimeEntry {
+  id          String   @id @default(cuid())
+  issueId     String
+  userId      String
+  minutes     Int
+  description String?
+  workedAt    DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  issue Issue @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([issueId])
+  @@index([userId, workedAt])
+}
+
+// ─── Activity / Notifications / Saved views ──────────────────────
+
+enum ActivityKind {
+  CREATED
+  UPDATED
+  STATUS_CHANGED
+  ASSIGNED
+  MOVED_SPRINT
+  COMMENTED
+  TIME_LOGGED
+  POINTS_CHANGED
+  PRIORITY_CHANGED
+  DELETED
+}
+
+model ActivityLog {
+  id        String       @id @default(cuid())
+  issueId   String?
+  projectId String?
+  userId    String
+  kind      ActivityKind
+  field     String?
+  oldValue  String?
+  newValue  String?
+  meta      Json?
+  createdAt DateTime     @default(now())
+
+  issue    Issue?  @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([issueId, createdAt])
+  @@index([projectId, createdAt])
+}
+
+enum NotificationType {
+  ISSUE_ASSIGNED
+  MENTION
+  COMMENT_ADDED
+  SPRINT_STARTED
+  SPRINT_COMPLETED
+  OVERDUE
+  STATUS_CHANGED
+  PRIORITY_CHANGED
+  ADDED_TO_PROJECT
+}
+
+model Notification {
+  id     String           @id @default(cuid())
+  userId String
+  type   NotificationType
+  body   String
+  link   String?
+  read   Boolean          @default(false)
+  createdAt DateTime       @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read, createdAt])
+}
+
+model SavedFilter {
+  id        String   @id @default(cuid())
+  userId    String
+  projectId String?
+  name      String
+  filters   Json
+  createdAt DateTime @default(now())
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
