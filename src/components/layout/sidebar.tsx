@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   CalendarDays,
@@ -10,7 +11,6 @@ import {
   LineChart,
   Settings,
   Users,
-  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ShellProject } from "@/components/layout/app-shell";
@@ -41,9 +41,13 @@ export function Sidebar({ projects }: { projects: ShellProject[] }) {
         href="/dashboard"
         className="flex items-center gap-2 px-4 py-4 text-foreground hover:opacity-80"
       >
-        <span className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <Zap className="size-4" />
-        </span>
+        <Image
+          src="/logo.png"
+          alt="اژدر"
+          width={28}
+          height={28}
+          className="size-7 rounded-lg object-cover"
+        />
         <span className="text-sm font-bold">اژدر</span>
       </Link>
 

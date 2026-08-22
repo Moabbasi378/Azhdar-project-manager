@@ -13,6 +13,9 @@
 # testing
 /coverage
 
+# local embedded postgres data (scripts/postgres.ts)
+/.pgdata/
+
 # next.js
 /.next/
 /out/

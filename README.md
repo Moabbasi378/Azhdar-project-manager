@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# اژدر | Agile Project Management
+
+Agile project management platform for product teams — boards, backlogs, sprints, epics, calendar, and reports. Built in Persian (RTL).
+
+## Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org) 16 (App Router, Server Actions)
+- **Database:** PostgreSQL + [Prisma](https://www.prisma.io) 7
+- **Auth:** [Auth.js](https://authjs.dev) v5 (credentials + JWT sessions)
+- **UI:** Tailwind CSS 4, Radix UI, Lucide icons
+- **Tests:** Vitest
+
+## Prerequisites
+
+- [Bun](https://bun.sh) 1.3+ (or Node.js 20+)
+- Docker or a local PostgreSQL — for development the repo ships an embedded Postgres via `scripts/postgres.ts` (no install needed beyond Bun/Node)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# 1. Install dependencies
+bun install   # or: npm install
+
+# 2. Configure environment
+cp .env.example .env
+# then set DATABASE_URL and AUTH_SECRET (generate with: bunx auth secret)
+
+# 3. Start the database (embedded postgres on :5433)
+bun run db:up
+
+# 4. Apply migrations and seed demo data
+bun run db:migrate
+bun run db:seed
+
+# 5. Run the dev server
+bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). Log in with a seeded user from `prisma/seed.ts`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Script              | Description                                  |
+| ------------------- | -------------------------------------------- |
+| `dev`               | Start the development server                 |
+| `build`             | Create a production build                    |
+| `start`             | Serve the production build                   |
+| `lint`              | Run ESLint                                   |
+| `typecheck`         | Run TypeScript type checking                 |
+| `test`              | Run Vitest test suite                        |
+| `db:up` / `db:down` | Start/stop the embedded development Postgres |
+| `db:migrate`        | Apply pending migrations (`migrate deploy`)  |
+| `db:seed`           | Seed the database with demo data             |
 
-## Learn More
+## Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+| Variable          | Required | Description                                                     |
+| ----------------- | -------- | --------------------------------------------------------------- |
+| `DATABASE_URL`    | Yes      | PostgreSQL connection string                                    |
+| `AUTH_SECRET`     | Yes      | Auth.js secret — generate with `bunx auth secret`               |
+| `AUTH_TRUST_HOST` | No       | Set to `true` when the app is not served behind HTTPS           |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Never commit `.env`. See `.env.example` for a template.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Production Deployment
 
-## Deploy on Vercel
+1. Provision a PostgreSQL instance and set `DATABASE_URL`.
+2. Set `AUTH_SECRET` to a strong random value.
+3. Install dependencies, apply migrations, and build:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   bun install --frozen-lockfile
+   bun run db:migrate
+   bun run build
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. Start the server:
+
+   ```bash
+   bun run start
+   ```
+
+> **Note:** `scripts/postgres.ts` is for local development only — use a managed/self-hosted PostgreSQL in production.
+
+## Project Structure
+
+```
+src/
+├── app/            # App Router pages & API routes
+│   ├── (auth)/     # Login / register
+│   └── (app)/      # Dashboard, projects, board, backlog, ...
+├── components/     # UI components organized by feature
+├── actions/        # Server actions
+└── lib/            # Auth, session, prisma client, helpers
+prisma/             # Schema, migrations, seed
+scripts/            # Dev tooling (embedded postgres)
+```
