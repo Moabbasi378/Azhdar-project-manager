@@ -25,13 +25,13 @@ export default async function TeamPage({
       orderBy: { createdAt: "asc" },
       select: {
         role: true,
-        user: { select: { id: true, firstName: true, lastName: true, avatarColor: true } },
+        user: { select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true } },
       },
     }),
     prisma.user.findMany({
       where: { status: "ACTIVE" },
       orderBy: [{ firstName: "asc" }, { lastName: "asc" }],
-      select: { id: true, firstName: true, lastName: true, avatarColor: true },
+      select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true },
     }),
   ]);
 
@@ -44,6 +44,8 @@ export default async function TeamPage({
         firstName: m.user.firstName,
         lastName: m.user.lastName,
         avatarColor: m.user.avatarColor,
+        avatarImage: m.user.avatarImage,
+        avatarIcon: m.user.avatarIcon,
       }))}
       allUsers={allUsers}
       canManage={

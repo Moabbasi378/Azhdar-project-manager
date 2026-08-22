@@ -42,6 +42,8 @@ export type AdminUser = {
   role: keyof typeof ROLE_LABELS;
   status: "ACTIVE" | "DISABLED";
   avatarColor: string;
+  avatarImage?: string | null;
+  avatarIcon?: string | null;
   createdAt: string;
 };
 
@@ -99,7 +101,14 @@ export function UsersView({
       <ul className="divide-y divide-border rounded-xl border border-border bg-card">
         {filtered.map((u) => (
           <li key={u.id} className="flex items-center gap-3 px-4 py-3">
-            <Avatar firstName={u.firstName} lastName={u.lastName} color={u.avatarColor} size="md" />
+            <Avatar
+              firstName={u.firstName}
+              lastName={u.lastName}
+              color={u.avatarColor}
+              imageUrl={u.avatarImage}
+              icon={u.avatarIcon}
+              size="md"
+            />
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium">
                 {u.firstName} {u.lastName}

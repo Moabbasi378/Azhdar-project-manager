@@ -9,7 +9,14 @@ export default async function SettingsPage() {
 
   const dbUser = await prisma.user.findUnique({
     where: { id: user.id },
-    select: { firstName: true, lastName: true, email: true, avatarColor: true },
+    select: {
+      firstName: true,
+      lastName: true,
+      email: true,
+      avatarColor: true,
+      avatarImage: true,
+      avatarIcon: true,
+    },
   });
 
   return (
@@ -19,6 +26,8 @@ export default async function SettingsPage() {
         lastName: dbUser?.lastName ?? user.lastName,
         email: dbUser?.email ?? "",
         avatarColor: dbUser?.avatarColor ?? "#6366f1",
+        avatarImage: dbUser?.avatarImage ?? null,
+        avatarIcon: dbUser?.avatarIcon ?? null,
       }}
     />
   );

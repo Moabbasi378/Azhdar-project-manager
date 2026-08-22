@@ -31,6 +31,8 @@ export type UserMinAggregateOutputType = {
   email: string | null
   passwordHash: string | null
   avatarColor: string | null
+  avatarImage: string | null
+  avatarIcon: string | null
   role: $Enums.SystemRole | null
   status: $Enums.UserStatus | null
   createdAt: Date | null
@@ -44,6 +46,8 @@ export type UserMaxAggregateOutputType = {
   email: string | null
   passwordHash: string | null
   avatarColor: string | null
+  avatarImage: string | null
+  avatarIcon: string | null
   role: $Enums.SystemRole | null
   status: $Enums.UserStatus | null
   createdAt: Date | null
@@ -57,6 +61,8 @@ export type UserCountAggregateOutputType = {
   email: number
   passwordHash: number
   avatarColor: number
+  avatarImage: number
+  avatarIcon: number
   role: number
   status: number
   createdAt: number
@@ -72,6 +78,8 @@ export type UserMinAggregateInputType = {
   email?: true
   passwordHash?: true
   avatarColor?: true
+  avatarImage?: true
+  avatarIcon?: true
   role?: true
   status?: true
   createdAt?: true
@@ -85,6 +93,8 @@ export type UserMaxAggregateInputType = {
   email?: true
   passwordHash?: true
   avatarColor?: true
+  avatarImage?: true
+  avatarIcon?: true
   role?: true
   status?: true
   createdAt?: true
@@ -98,6 +108,8 @@ export type UserCountAggregateInputType = {
   email?: true
   passwordHash?: true
   avatarColor?: true
+  avatarImage?: true
+  avatarIcon?: true
   role?: true
   status?: true
   createdAt?: true
@@ -184,6 +196,8 @@ export type UserGroupByOutputType = {
   email: string
   passwordHash: string
   avatarColor: string
+  avatarImage: string | null
+  avatarIcon: string | null
   role: $Enums.SystemRole
   status: $Enums.UserStatus
   createdAt: Date
@@ -218,6 +232,8 @@ export type UserWhereInput = {
   email?: Prisma.StringFilter<"User"> | string
   passwordHash?: Prisma.StringFilter<"User"> | string
   avatarColor?: Prisma.StringFilter<"User"> | string
+  avatarImage?: Prisma.StringNullableFilter<"User"> | string | null
+  avatarIcon?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumSystemRoleFilter<"User"> | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -242,6 +258,8 @@ export type UserOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   avatarColor?: Prisma.SortOrder
+  avatarImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarIcon?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -269,6 +287,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   lastName?: Prisma.StringFilter<"User"> | string
   passwordHash?: Prisma.StringFilter<"User"> | string
   avatarColor?: Prisma.StringFilter<"User"> | string
+  avatarImage?: Prisma.StringNullableFilter<"User"> | string | null
+  avatarIcon?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumSystemRoleFilter<"User"> | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -293,6 +313,8 @@ export type UserOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   avatarColor?: Prisma.SortOrder
+  avatarImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarIcon?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -312,6 +334,8 @@ export type UserScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   passwordHash?: Prisma.StringWithAggregatesFilter<"User"> | string
   avatarColor?: Prisma.StringWithAggregatesFilter<"User"> | string
+  avatarImage?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  avatarIcon?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumSystemRoleWithAggregatesFilter<"User"> | $Enums.SystemRole
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -325,6 +349,8 @@ export type UserCreateInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -349,6 +375,8 @@ export type UserUncheckedCreateInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -373,6 +401,8 @@ export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -397,6 +427,8 @@ export type UserUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -421,6 +453,8 @@ export type UserCreateManyInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -434,6 +468,8 @@ export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -447,6 +483,8 @@ export type UserUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -460,6 +498,8 @@ export type UserCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   avatarColor?: Prisma.SortOrder
+  avatarImage?: Prisma.SortOrder
+  avatarIcon?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -473,6 +513,8 @@ export type UserMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   avatarColor?: Prisma.SortOrder
+  avatarImage?: Prisma.SortOrder
+  avatarIcon?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -486,6 +528,8 @@ export type UserMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   avatarColor?: Prisma.SortOrder
+  avatarImage?: Prisma.SortOrder
+  avatarIcon?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -504,6 +548,10 @@ export type UserScalarRelationFilter = {
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type EnumSystemRoleFieldUpdateOperationsInput = {
@@ -685,6 +733,8 @@ export type UserCreateWithoutLedTeamsInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -708,6 +758,8 @@ export type UserUncheckedCreateWithoutLedTeamsInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -747,6 +799,8 @@ export type UserUpdateWithoutLedTeamsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -770,6 +824,8 @@ export type UserUncheckedUpdateWithoutLedTeamsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -793,6 +849,8 @@ export type UserCreateWithoutTeamsInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -816,6 +874,8 @@ export type UserUncheckedCreateWithoutTeamsInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -855,6 +915,8 @@ export type UserUpdateWithoutTeamsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -878,6 +940,8 @@ export type UserUncheckedUpdateWithoutTeamsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -901,6 +965,8 @@ export type UserCreateWithoutOwnedProjectsInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -924,6 +990,8 @@ export type UserUncheckedCreateWithoutOwnedProjectsInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -963,6 +1031,8 @@ export type UserUpdateWithoutOwnedProjectsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -986,6 +1056,8 @@ export type UserUncheckedUpdateWithoutOwnedProjectsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1009,6 +1081,8 @@ export type UserCreateWithoutProjectMembershipsInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1032,6 +1106,8 @@ export type UserUncheckedCreateWithoutProjectMembershipsInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1071,6 +1147,8 @@ export type UserUpdateWithoutProjectMembershipsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1094,6 +1172,8 @@ export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1117,6 +1197,8 @@ export type UserCreateWithoutAssignedIssuesInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1140,6 +1222,8 @@ export type UserUncheckedCreateWithoutAssignedIssuesInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1168,6 +1252,8 @@ export type UserCreateWithoutReportedIssuesInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1191,6 +1277,8 @@ export type UserUncheckedCreateWithoutReportedIssuesInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1230,6 +1318,8 @@ export type UserUpdateWithoutAssignedIssuesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1253,6 +1343,8 @@ export type UserUncheckedUpdateWithoutAssignedIssuesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1287,6 +1379,8 @@ export type UserUpdateWithoutReportedIssuesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1310,6 +1404,8 @@ export type UserUncheckedUpdateWithoutReportedIssuesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1333,6 +1429,8 @@ export type UserCreateWithoutCommentsInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1356,6 +1454,8 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1395,6 +1495,8 @@ export type UserUpdateWithoutCommentsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1418,6 +1520,8 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1441,6 +1545,8 @@ export type UserCreateWithoutTimeEntriesInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1464,6 +1570,8 @@ export type UserUncheckedCreateWithoutTimeEntriesInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1503,6 +1611,8 @@ export type UserUpdateWithoutTimeEntriesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1526,6 +1636,8 @@ export type UserUncheckedUpdateWithoutTimeEntriesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1549,6 +1661,8 @@ export type UserCreateWithoutActivitiesInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1572,6 +1686,8 @@ export type UserUncheckedCreateWithoutActivitiesInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1611,6 +1727,8 @@ export type UserUpdateWithoutActivitiesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1634,6 +1752,8 @@ export type UserUncheckedUpdateWithoutActivitiesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1657,6 +1777,8 @@ export type UserCreateWithoutNotificationsInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1680,6 +1802,8 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1719,6 +1843,8 @@ export type UserUpdateWithoutNotificationsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1742,6 +1868,8 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1765,6 +1893,8 @@ export type UserCreateWithoutSavedFiltersInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1788,6 +1918,8 @@ export type UserUncheckedCreateWithoutSavedFiltersInput = {
   email: string
   passwordHash: string
   avatarColor?: string
+  avatarImage?: string | null
+  avatarIcon?: string | null
   role?: $Enums.SystemRole
   status?: $Enums.UserStatus
   createdAt?: Date | string
@@ -1827,6 +1959,8 @@ export type UserUpdateWithoutSavedFiltersInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1850,6 +1984,8 @@ export type UserUncheckedUpdateWithoutSavedFiltersInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   avatarColor?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarIcon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1994,6 +2130,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   email?: boolean
   passwordHash?: boolean
   avatarColor?: boolean
+  avatarImage?: boolean
+  avatarIcon?: boolean
   role?: boolean
   status?: boolean
   createdAt?: boolean
@@ -2019,6 +2157,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   passwordHash?: boolean
   avatarColor?: boolean
+  avatarImage?: boolean
+  avatarIcon?: boolean
   role?: boolean
   status?: boolean
   createdAt?: boolean
@@ -2032,6 +2172,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   passwordHash?: boolean
   avatarColor?: boolean
+  avatarImage?: boolean
+  avatarIcon?: boolean
   role?: boolean
   status?: boolean
   createdAt?: boolean
@@ -2045,13 +2187,15 @@ export type UserSelectScalar = {
   email?: boolean
   passwordHash?: boolean
   avatarColor?: boolean
+  avatarImage?: boolean
+  avatarIcon?: boolean
   role?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "passwordHash" | "avatarColor" | "role" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "passwordHash" | "avatarColor" | "avatarImage" | "avatarIcon" | "role" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignedIssues?: boolean | Prisma.User$assignedIssuesArgs<ExtArgs>
   reportedIssues?: boolean | Prisma.User$reportedIssuesArgs<ExtArgs>
@@ -2091,6 +2235,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     email: string
     passwordHash: string
     avatarColor: string
+    avatarImage: string | null
+    avatarIcon: string | null
     role: $Enums.SystemRole
     status: $Enums.UserStatus
     createdAt: Date
@@ -2535,6 +2681,8 @@ export interface UserFieldRefs {
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly passwordHash: Prisma.FieldRef<"User", 'String'>
   readonly avatarColor: Prisma.FieldRef<"User", 'String'>
+  readonly avatarImage: Prisma.FieldRef<"User", 'String'>
+  readonly avatarIcon: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'SystemRole'>
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>

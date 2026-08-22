@@ -52,7 +52,7 @@ export default async function DashboardPage() {
         },
         select: {
           id: true, key: true, title: true, type: true, priority: true, dueAt: true,
-          assignee: { select: { firstName: true, lastName: true, avatarColor: true } },
+          assignee: { select: { firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true } },
         },
         orderBy: { dueAt: "asc" },
         take: 5,
@@ -71,7 +71,7 @@ export default async function DashboardPage() {
         where: { projectId: { in: projectIds }, kind: { not: "UPDATED" } },
         select: {
           id: true, kind: true, createdAt: true,
-          user: { select: { firstName: true, lastName: true, avatarColor: true } },
+          user: { select: { firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true } },
           issue: { select: { key: true, title: true } },
         },
         orderBy: { createdAt: "desc" },

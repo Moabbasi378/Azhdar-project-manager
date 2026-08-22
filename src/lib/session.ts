@@ -11,6 +11,8 @@ export type SessionUser = {
   fullName: string;
   role: "OWNER" | "PROJECT_MANAGER" | "DEVELOPER" | "VIEWER";
   avatarColor: string;
+  avatarImage: string | null;
+  avatarIcon: string | null;
 };
 
 export const getSessionUser = cache(async (): Promise<SessionUser | null> => {
@@ -29,6 +31,8 @@ export const getSessionUser = cache(async (): Promise<SessionUser | null> => {
     fullName: `${user.firstName} ${user.lastName}`,
     role: user.role,
     avatarColor: user.avatarColor,
+    avatarImage: user.avatarImage,
+    avatarIcon: user.avatarIcon,
   };
 });
 

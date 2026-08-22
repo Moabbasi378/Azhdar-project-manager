@@ -18,7 +18,7 @@ export default async function UsersPage() {
       email: true,
       role: true,
       status: true,
-      avatarColor: true,
+      avatarColor: true, avatarImage: true, avatarIcon: true,
       createdAt: true,
     },
   });

@@ -36,7 +36,7 @@ export default async function BoardPage({
     }),
     prisma.projectMember.findMany({
       where: { projectId: project.id },
-      select: { user: { select: { id: true, firstName: true, lastName: true, avatarColor: true } } },
+      select: { user: { select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true } } },
     }),
   ]);
 
@@ -58,7 +58,7 @@ export default async function BoardPage({
       id: true, key: true, title: true, type: true, priority: true,
       storyPoints: true, order: true, statusId: true, sprintId: true, dueAt: true,
       epicId: true,
-      assignee: { select: { id: true, firstName: true, lastName: true, avatarColor: true } },
+      assignee: { select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true } },
       labels: { select: { label: { select: { id: true, name: true, color: true } } } },
     },
     orderBy: { order: "asc" },

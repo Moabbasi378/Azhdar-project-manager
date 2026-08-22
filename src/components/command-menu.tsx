@@ -33,7 +33,15 @@ type SearchResults = {
     project: { key: string; name: string; icon: string };
   }[];
   projects: { key: string; name: string; icon: string }[];
-  users: { id: string; firstName: string; lastName: string; avatarColor: string; email: string }[];
+  users: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    avatarColor: string;
+    avatarImage?: string | null;
+    avatarIcon?: string | null;
+    email: string;
+  }[];
   sprints: { id: string; name: string; state: keyof typeof SPRINT_STATE_LABELS; project: { name: string; key: string } }[];
 };
 
@@ -135,7 +143,14 @@ export function CommandMenu({
           <CommandGroup heading="کاربران">
             {data!.users.map((u) => (
               <CommandItem key={u.id} value={u.id} onSelect={() => go(`/teams`)}>
-                <Avatar firstName={u.firstName} lastName={u.lastName} color={u.avatarColor} size="sm" />
+                <Avatar
+                  firstName={u.firstName}
+                  lastName={u.lastName}
+                  color={u.avatarColor}
+                  imageUrl={u.avatarImage}
+                  icon={u.avatarIcon}
+                  size="sm"
+                />
                 {u.firstName} {u.lastName}
               </CommandItem>
             ))}

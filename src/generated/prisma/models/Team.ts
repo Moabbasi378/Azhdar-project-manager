@@ -405,10 +405,6 @@ export type TeamUncheckedUpdateManyWithoutLeaderNestedInput = {
   deleteMany?: Prisma.TeamScalarWhereInput | Prisma.TeamScalarWhereInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type TeamCreateNestedOneWithoutMembersInput = {
   create?: Prisma.XOR<Prisma.TeamCreateWithoutMembersInput, Prisma.TeamUncheckedCreateWithoutMembersInput>
   connectOrCreate?: Prisma.TeamCreateOrConnectWithoutMembersInput

@@ -317,7 +317,14 @@ export function IssueDetailBody({
         <ol className="space-y-3">
           {issue.activities.map((a) => (
             <li key={a.id} className="flex items-start gap-2.5 text-sm">
-              <Avatar firstName={a.user.firstName} lastName={a.user.lastName} color={a.user.avatarColor} size="xs" />
+              <Avatar
+                firstName={a.user.firstName}
+                lastName={a.user.lastName}
+                color={a.user.avatarColor}
+                imageUrl={a.user.avatarImage}
+                icon={a.user.avatarIcon}
+                size="xs"
+              />
               <p className="leading-6 text-muted-foreground">
                 <span className="font-medium text-foreground">
                   {a.user.firstName} {a.user.lastName}

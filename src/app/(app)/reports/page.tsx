@@ -46,7 +46,7 @@ export default async function GlobalReportsPage() {
   const assigneeIds = workload.map((w) => w.assigneeId!);
   const users = await prisma.user.findMany({
     where: { id: { in: assigneeIds } },
-    select: { id: true, firstName: true, lastName: true, avatarColor: true },
+    select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true },
   });
   const userMap = new Map(users.map((u) => [u.id, u]));
   const workloadRows = workload

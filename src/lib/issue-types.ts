@@ -11,6 +11,8 @@ export type UserLite = {
   firstName: string;
   lastName: string;
   avatarColor: string;
+  avatarImage?: string | null;
+  avatarIcon?: string | null;
 };
 
 export type LabelLite = { id: string; name: string; color: string };

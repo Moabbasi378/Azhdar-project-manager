@@ -15,10 +15,10 @@ export default async function TeamsPage() {
         id: true,
         name: true,
         description: true,
-        leader: { select: { id: true, firstName: true, lastName: true, avatarColor: true } },
+        leader: { select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true } },
         members: {
           orderBy: { joinedAt: "asc" },
-          select: { user: { select: { id: true, firstName: true, lastName: true, avatarColor: true } } },
+          select: { user: { select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true } } },
         },
         _count: { select: { projects: true } },
       },
@@ -26,7 +26,7 @@ export default async function TeamsPage() {
     prisma.user.findMany({
       where: { status: "ACTIVE" },
       orderBy: [{ firstName: "asc" }, { lastName: "asc" }],
-      select: { id: true, firstName: true, lastName: true, avatarColor: true },
+      select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true },
     }),
   ]);
 

@@ -28,7 +28,7 @@ export default async function EpicsPage({
         select: {
           id: true, key: true, title: true, type: true, priority: true,
           status: { select: { name: true, category: true } },
-          assignee: { select: { id: true, firstName: true, lastName: true, avatarColor: true } },
+          assignee: { select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true } },
         },
         orderBy: { order: "asc" },
       },

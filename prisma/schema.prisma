@@ -28,6 +28,8 @@ model User {
   email        String     @unique
   passwordHash String
   avatarColor  String     @default("#6366f1")
+  avatarImage  String?
+  avatarIcon   String?
   role         SystemRole @default(DEVELOPER)
   status       UserStatus @default(ACTIVE)
   createdAt    DateTime   @default(now())

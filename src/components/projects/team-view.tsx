@@ -32,6 +32,8 @@ type Member = {
   firstName: string;
   lastName: string;
   avatarColor: string;
+  avatarImage?: string | null;
+  avatarIcon?: string | null;
 };
 
 export function TeamView({
@@ -42,7 +44,14 @@ export function TeamView({
 }: {
   projectId: string;
   initialMembers: Member[];
-  allUsers: { id: string; firstName: string; lastName: string; avatarColor: string }[];
+  allUsers: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    avatarColor: string;
+    avatarImage?: string | null;
+    avatarIcon?: string | null;
+  }[];
   canManage: boolean;
 }) {
   const router = useRouter();
@@ -92,7 +101,14 @@ export function TeamView({
       <ul className="divide-y divide-border rounded-xl border border-border bg-card">
         {initialMembers.map((m) => (
           <li key={m.userId} className="flex items-center gap-3 px-4 py-3">
-            <Avatar firstName={m.firstName} lastName={m.lastName} color={m.avatarColor} size="md" />
+            <Avatar
+              firstName={m.firstName}
+              lastName={m.lastName}
+              color={m.avatarColor}
+              imageUrl={m.avatarImage}
+              icon={m.avatarIcon}
+              size="md"
+            />
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium">
                 {m.firstName} {m.lastName}

@@ -26,6 +26,8 @@ export type HeaderUser = {
   fullName: string;
   role: keyof typeof ROLE_LABELS;
   avatarColor: string;
+  avatarImage?: string | null;
+  avatarIcon?: string | null;
 };
 
 export function Header({ user, unreadCount }: { user: HeaderUser; unreadCount: number }) {
@@ -116,7 +118,13 @@ export function Header({ user, unreadCount }: { user: HeaderUser; unreadCount: n
               className="ms-1 rounded-full focus-visible:outline-2 focus-visible:outline-ring"
               aria-label="منوی کاربر"
             >
-              <Avatar firstName={user.firstName} lastName={user.lastName} color={user.avatarColor} />
+              <Avatar
+                firstName={user.firstName}
+                lastName={user.lastName}
+                color={user.avatarColor}
+                imageUrl={user.avatarImage}
+                icon={user.avatarIcon}
+              />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-52">

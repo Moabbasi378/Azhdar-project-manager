@@ -13,6 +13,8 @@ export function Avatar({
   firstName,
   lastName,
   color,
+  imageUrl,
+  icon,
   size = "md",
   className,
   title,
@@ -20,22 +22,34 @@ export function Avatar({
   firstName: string;
   lastName: string;
   color?: string;
+  imageUrl?: string | null;
+  icon?: string | null;
   size?: AvatarSize;
   className?: string;
   title?: string;
 }) {
+  const label = title ?? `${firstName} ${lastName}`;
   return (
     <span
       title={title}
-      aria-label={title ?? `${firstName} ${lastName}`}
+      aria-label={label}
       style={{ backgroundColor: color ?? "#6366f1" }}
       className={cn(
-        "inline-flex shrink-0 select-none items-center justify-center rounded-full font-semibold text-white",
+        "inline-flex shrink-0 select-none items-center justify-center overflow-hidden rounded-full font-semibold text-white",
         sizeClasses[size],
         className,
       )}
     >
-      {initials(firstName, lastName)}
+      {imageUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={imageUrl} alt={label} className="size-full object-cover" />
+      ) : icon ? (
+        <span aria-hidden className="text-[1.35em] leading-none">
+          {icon}
+        </span>
+      ) : (
+        initials(firstName, lastName)
+      )}
     </span>
   );
 }
@@ -46,7 +60,14 @@ export function AvatarStack({
   max = 4,
   size = "sm",
 }: {
-  users: { id: string; firstName: string; lastName: string; avatarColor: string }[];
+  users: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    avatarColor: string;
+    avatarImage?: string | null;
+    avatarIcon?: string | null;
+  }[];
   max?: number;
   size?: AvatarSize;
 }) {
@@ -60,6 +81,8 @@ export function AvatarStack({
           firstName={u.firstName}
           lastName={u.lastName}
           color={u.avatarColor}
+          imageUrl={u.avatarImage}
+          icon={u.avatarIcon}
           size={size}
           title={`${u.firstName} ${u.lastName}`}
           className="ring-2 ring-card"

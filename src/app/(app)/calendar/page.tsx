@@ -24,7 +24,7 @@ export default async function GlobalCalendarPage() {
     select: {
       id: true, key: true, title: true, type: true, priority: true, dueAt: true,
       status: { select: { category: true } },
-      assignee: { select: { id: true, firstName: true, lastName: true, avatarColor: true } },
+      assignee: { select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true } },
     },
     orderBy: { dueAt: "asc" },
     take: 300,

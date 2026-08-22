@@ -63,7 +63,7 @@ export async function GET(request: Request) {
           },
         ],
       },
-      select: { id: true, firstName: true, lastName: true, avatarColor: true, email: true },
+      select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true, email: true },
       take: 4,
     }),
     prisma.sprint.findMany({

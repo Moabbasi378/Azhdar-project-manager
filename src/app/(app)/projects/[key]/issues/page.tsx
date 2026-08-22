@@ -98,7 +98,7 @@ export default async function IssuesPage({
       id: true, key: true, title: true, type: true, priority: true,
       storyPoints: true, dueAt: true,
       status: { select: { name: true, category: true } },
-      assignee: { select: { id: true, firstName: true, lastName: true, avatarColor: true } },
+      assignee: { select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true } },
       labels: { select: { label: { select: { id: true, name: true, color: true } } } },
     },
     orderBy: [{ status: { order: "asc" } }, { priority: "desc" }],

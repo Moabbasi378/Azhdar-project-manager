@@ -40,7 +40,7 @@ export default async function ProjectOverviewPage({
       orderBy: { createdAt: "asc" },
       select: {
         role: true,
-        user: { select: { id: true, firstName: true, lastName: true, avatarColor: true } },
+        user: { select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true } },
       },
     }),
     prisma.activityLog.findMany({
@@ -49,7 +49,7 @@ export default async function ProjectOverviewPage({
       take: 10,
       select: {
         id: true, kind: true, createdAt: true,
-        user: { select: { firstName: true, lastName: true, avatarColor: true } },
+        user: { select: { firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true } },
         issue: { select: { key: true, title: true } },
       },
     }),
