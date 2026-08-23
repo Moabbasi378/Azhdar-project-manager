@@ -12,7 +12,8 @@
     "db:up": "tsx scripts/postgres.ts up",
     "db:down": "tsx scripts/postgres.ts down",
     "db:migrate": "prisma migrate deploy",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "user:reset-password": "tsx scripts/reset-password.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
