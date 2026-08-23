@@ -126,7 +126,14 @@ export default async function GlobalReportsPage() {
           <ul className="space-y-2 rounded-xl border border-border bg-card p-4">
             {workloadRows.map((row) => (
               <li key={row.user.id} className="flex items-center gap-3">
-                <Avatar {...row.user} size="sm" />
+                <Avatar
+                  firstName={row.user.firstName}
+                  lastName={row.user.lastName}
+                  color={row.user.avatarColor}
+                  imageUrl={row.user.avatarImage}
+                  icon={row.user.avatarIcon}
+                  size="sm"
+                />
                 <span className="w-32 truncate text-sm">
                   {row.user.firstName} {row.user.lastName}
                 </span>

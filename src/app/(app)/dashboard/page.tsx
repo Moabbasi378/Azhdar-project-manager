@@ -230,7 +230,15 @@ export default async function DashboardPage() {
                       <span dir="ltr" className="font-mono text-[10px] text-muted-foreground">{issue.key}</span>
                       <span className="truncate">{issue.title}</span>
                       {issue.assignee && (
-                        <Avatar {...issue.assignee} size="xs" className="mr-auto" />
+                        <Avatar
+                          firstName={issue.assignee.firstName}
+                          lastName={issue.assignee.lastName}
+                          color={issue.assignee.avatarColor}
+                          imageUrl={issue.assignee.avatarImage}
+                          icon={issue.assignee.avatarIcon}
+                          size="xs"
+                          className="mr-auto"
+                        />
                       )}
                     </Link>
                   </li>
@@ -244,7 +252,14 @@ export default async function DashboardPage() {
             <ol className="space-y-2.5">
               {recentActivity.map((a) => (
                 <li key={a.id} className="flex items-start gap-2 text-xs leading-5">
-                  <Avatar {...a.user} size="xs" />
+                  <Avatar
+                    firstName={a.user.firstName}
+                    lastName={a.user.lastName}
+                    color={a.user.avatarColor}
+                    imageUrl={a.user.avatarImage}
+                    icon={a.user.avatarIcon}
+                    size="xs"
+                  />
                   <p className="text-muted-foreground">
                     <span className="font-medium text-foreground">{a.user.firstName} {a.user.lastName}</span>{" "}
                     {activityLabel(a.kind)}{" "}

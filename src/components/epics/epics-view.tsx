@@ -29,7 +29,16 @@ type EpicIssue = {
   priority: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
   statusName: string;
   done: boolean;
-  assignee: { id: string; firstName: string; lastName: string; avatarColor: string } | null;
+  assignee:
+    | {
+        id: string;
+        firstName: string;
+        lastName: string;
+        avatarColor: string;
+        avatarImage?: string | null;
+        avatarIcon?: string | null;
+      }
+    | null;
 };
 
 type Epic = {
@@ -165,7 +174,14 @@ export function EpicsView({
                           <Badge variant={issue.done ? "success" : "outline"}>{issue.statusName}</Badge>
                           <PriorityIcon priority={issue.priority} />
                           {issue.assignee ? (
-                            <Avatar {...issue.assignee} size="xs" />
+                            <Avatar
+                              firstName={issue.assignee.firstName}
+                              lastName={issue.assignee.lastName}
+                              color={issue.assignee.avatarColor}
+                              imageUrl={issue.assignee.avatarImage}
+                              icon={issue.assignee.avatarIcon}
+                              size="xs"
+                            />
                           ) : (
                             <span className="size-5 rounded-full border border-dashed border-input" />
                           )}

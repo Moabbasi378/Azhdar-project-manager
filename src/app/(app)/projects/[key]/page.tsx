@@ -142,7 +142,14 @@ export default async function ProjectOverviewPage({
           <ul className="divide-y divide-border rounded-xl border border-border bg-card">
             {members.map((m) => (
               <li key={m.user.id} className="flex items-center gap-2.5 px-3 py-2.5">
-                <Avatar {...m.user} size="sm" />
+                <Avatar
+                  firstName={m.user.firstName}
+                  lastName={m.user.lastName}
+                  color={m.user.avatarColor}
+                  imageUrl={m.user.avatarImage}
+                  icon={m.user.avatarIcon}
+                  size="sm"
+                />
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium">
                     {m.user.firstName} {m.user.lastName}
@@ -173,7 +180,14 @@ export default async function ProjectOverviewPage({
             <ol className="space-y-3 rounded-xl border border-border bg-card p-4">
               {activity.map((a) => (
                 <li key={a.id} className="flex items-start gap-2.5 text-xs leading-5">
-                  <Avatar {...a.user} size="xs" />
+                  <Avatar
+                    firstName={a.user.firstName}
+                    lastName={a.user.lastName}
+                    color={a.user.avatarColor}
+                    imageUrl={a.user.avatarImage}
+                    icon={a.user.avatarIcon}
+                    size="xs"
+                  />
                   <p className="text-muted-foreground">
                     <span className="font-medium text-foreground">
                       {a.user.firstName} {a.user.lastName}

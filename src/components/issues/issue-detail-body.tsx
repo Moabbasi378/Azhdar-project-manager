@@ -535,7 +535,14 @@ function UserPicker({
       <SelectTrigger size="sm" className="border-0 bg-secondary/60 px-2">
         {value ? (
           <span className="flex items-center gap-1.5">
-            <Avatar {...value} size="xs" />
+            <Avatar
+              firstName={value.firstName}
+              lastName={value.lastName}
+              color={value.avatarColor}
+              imageUrl={value.avatarImage}
+              icon={value.avatarIcon}
+              size="xs"
+            />
             <span>{value.firstName} {value.lastName}</span>
           </span>
         ) : (
@@ -878,7 +885,14 @@ function TimeSection({
       <ul className="space-y-1.5">
         {issue.timeEntries.slice(0, 5).map((entry) => (
           <li key={entry.id} className="flex items-center gap-2 text-sm">
-            <Avatar {...entry.user} size="xs" />
+            <Avatar
+              firstName={entry.user.firstName}
+              lastName={entry.user.lastName}
+              color={entry.user.avatarColor}
+              imageUrl={entry.user.avatarImage}
+              icon={entry.user.avatarIcon}
+              size="xs"
+            />
             <span className="font-medium">{entry.user.firstName}</span>
             <Badge variant="outline">{formatDuration(entry.minutes)}</Badge>
             {entry.description && (
@@ -953,7 +967,14 @@ function CommentsSection({
       <ul className="mb-4 space-y-4">
         {issue.comments.map((comment) => (
           <li key={comment.id} className="flex items-start gap-2.5">
-            <Avatar {...comment.author} size="sm" />
+            <Avatar
+              firstName={comment.author.firstName}
+              lastName={comment.author.lastName}
+              color={comment.author.avatarColor}
+              imageUrl={comment.author.avatarImage}
+              icon={comment.author.avatarIcon}
+              size="sm"
+            />
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline gap-2">
                 <span className="text-sm font-medium">
@@ -994,7 +1015,14 @@ function CommentsSection({
                   onClick={() => applyMention(user)}
                   className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-secondary"
                 >
-                  <Avatar {...user} size="xs" />
+                  <Avatar
+                    firstName={user.firstName}
+                    lastName={user.lastName}
+                    color={user.avatarColor}
+                    imageUrl={user.avatarImage}
+                    icon={user.avatarIcon}
+                    size="xs"
+                  />
                   {user.firstName} {user.lastName}
                 </button>
               </li>

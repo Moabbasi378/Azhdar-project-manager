@@ -26,7 +26,16 @@ export type CalendarIssue = {
   priority: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
   dueAt: string;
   done: boolean;
-  assignee: { id: string; firstName: string; lastName: string; avatarColor: string } | null;
+  assignee:
+    | {
+        id: string;
+        firstName: string;
+        lastName: string;
+        avatarColor: string;
+        avatarImage?: string | null;
+        avatarIcon?: string | null;
+      }
+    | null;
 };
 
 export function CalendarView({
@@ -198,7 +207,16 @@ export function CalendarView({
                       <Badge variant={issue.done ? "success" : "outline"}>
                         {issue.done ? "انجام شده" : "باز"}
                       </Badge>
-                      {issue.assignee && <Avatar {...issue.assignee} size="xs" />}
+                      {issue.assignee && (
+                        <Avatar
+                          firstName={issue.assignee.firstName}
+                          lastName={issue.assignee.lastName}
+                          color={issue.assignee.avatarColor}
+                          imageUrl={issue.assignee.avatarImage}
+                          icon={issue.assignee.avatarIcon}
+                          size="xs"
+                        />
+                      )}
                     </span>
                   </button>
                 </li>

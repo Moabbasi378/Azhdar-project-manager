@@ -23,12 +23,21 @@ import { Input, Label, Textarea } from "@/components/ui/input";
 import { addTeamMember, createTeam, deleteTeam, removeTeamMember } from "@/actions/team";
 import { toPersianDigits } from "@/lib/jalali";
 
+type TeamMember = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatarColor: string;
+  avatarImage?: string | null;
+  avatarIcon?: string | null;
+};
+
 type TeamData = {
   id: string;
   name: string;
   description: string | null;
-  leader: { id: string; firstName: string; lastName: string; avatarColor: string } | null;
-  members: { id: string; firstName: string; lastName: string; avatarColor: string }[];
+  leader: TeamMember | null;
+  members: TeamMember[];
   projectCount: number;
 };
 
@@ -38,7 +47,7 @@ export function TeamsView({
   canManage,
 }: {
   initialTeams: TeamData[];
-  allUsers: { id: string; firstName: string; lastName: string; avatarColor: string }[];
+  allUsers: TeamMember[];
   canManage: boolean;
 }) {
   const router = useRouter();
@@ -128,7 +137,14 @@ export function TeamsView({
                 const isLeader = team.leader?.id === m.id;
                 return (
                   <li key={m.id} className="group flex items-center gap-2 text-sm">
-                    <Avatar {...m} size="xs" />
+                    <Avatar
+                      firstName={m.firstName}
+                      lastName={m.lastName}
+                      color={m.avatarColor}
+                      imageUrl={m.avatarImage}
+                      icon={m.avatarIcon}
+                      size="xs"
+                    />
                     <span className="truncate">{m.firstName} {m.lastName}</span>
                     {isLeader && <Crown className="size-3.5 shrink-0 text-amber-500" />}
                     {canManage && (
@@ -200,7 +216,14 @@ export function TeamsView({
                   }}
                   className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-sm transition-colors hover:bg-secondary"
                 >
-                  <Avatar {...u} size="sm" />
+                  <Avatar
+                    firstName={u.firstName}
+                    lastName={u.lastName}
+                    color={u.avatarColor}
+                    imageUrl={u.avatarImage}
+                    icon={u.avatarIcon}
+                    size="sm"
+                  />
                   {u.firstName} {u.lastName}
                   <UserPlus className="mr-auto size-4 text-muted-foreground" />
                 </button>
@@ -224,7 +247,7 @@ function CreateTeamDialog({
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  users: { id: string; firstName: string; lastName: string; avatarColor: string }[];
+  users: TeamMember[];
   onCreate: (data: { name: string; description: string; memberIds: string[] }) => Promise<boolean>;
 }) {
   const [name, setName] = useState("");
@@ -288,7 +311,14 @@ function CreateTeamDialog({
                       }
                       className="size-4 accent-[var(--primary)]"
                     />
-                    <Avatar {...u} size="xs" />
+                    <Avatar
+                      firstName={u.firstName}
+                      lastName={u.lastName}
+                      color={u.avatarColor}
+                      imageUrl={u.avatarImage}
+                      icon={u.avatarIcon}
+                      size="xs"
+                    />
                     {u.firstName} {u.lastName}
                   </label>
                 </li>

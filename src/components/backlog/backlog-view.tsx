@@ -417,7 +417,14 @@ function BacklogRow({
           )
         )}
         {issue.assignee ? (
-          <Avatar {...issue.assignee} size="xs" />
+          <Avatar
+            firstName={issue.assignee.firstName}
+            lastName={issue.assignee.lastName}
+            color={issue.assignee.avatarColor}
+            imageUrl={issue.assignee.avatarImage}
+            icon={issue.assignee.avatarIcon}
+            size="xs"
+          />
         ) : (
           <span className="size-5 rounded-full border border-dashed border-input" />
         )}

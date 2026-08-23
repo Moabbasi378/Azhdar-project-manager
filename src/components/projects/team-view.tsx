@@ -185,7 +185,14 @@ export function TeamView({
                   disabled={pendingId === u.id}
                   className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-sm transition-colors hover:bg-secondary"
                 >
-                  <Avatar {...u} size="sm" />
+                  <Avatar
+                    firstName={u.firstName}
+                    lastName={u.lastName}
+                    color={u.avatarColor}
+                    imageUrl={u.avatarImage}
+                    icon={u.avatarIcon}
+                    size="sm"
+                  />
                   {u.firstName} {u.lastName}
                   <UserPlus className="mr-auto size-4 text-muted-foreground" />
                 </button>

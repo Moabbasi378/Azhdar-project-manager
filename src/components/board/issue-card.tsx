@@ -21,7 +21,16 @@ export type BoardIssue = {
   sprintId: string | null;
   epicId: string | null;
   dueAt: string | null;
-  assignee: { id: string; firstName: string; lastName: string; avatarColor: string } | null;
+  assignee:
+    | {
+        id: string;
+        firstName: string;
+        lastName: string;
+        avatarColor: string;
+        avatarImage?: string | null;
+        avatarIcon?: string | null;
+      }
+    | null;
   labels: { label: { id: string; name: string; color: string } }[];
 };
 
@@ -101,7 +110,15 @@ export function IssueCard({
           </span>
         )}
         {issue.assignee ? (
-          <Avatar {...issue.assignee} size="xs" className="mr-auto" />
+          <Avatar
+            firstName={issue.assignee.firstName}
+            lastName={issue.assignee.lastName}
+            color={issue.assignee.avatarColor}
+            imageUrl={issue.assignee.avatarImage}
+            icon={issue.assignee.avatarIcon}
+            size="xs"
+            className="mr-auto"
+          />
         ) : (
           <span className="mr-auto size-5 rounded-full border border-dashed border-input" />
         )}
@@ -141,7 +158,15 @@ export function IssueCardStatic({
       <div className="mt-1.5 flex items-center gap-1.5">
         <IssueTypeIcon type={issue.type} />
         {issue.assignee ? (
-          <Avatar {...issue.assignee} size="xs" className="mr-auto" />
+          <Avatar
+            firstName={issue.assignee.firstName}
+            lastName={issue.assignee.lastName}
+            color={issue.assignee.avatarColor}
+            imageUrl={issue.assignee.avatarImage}
+            icon={issue.assignee.avatarIcon}
+            size="xs"
+            className="mr-auto"
+          />
         ) : (
           <span className="mr-auto size-5 rounded-full border border-dashed border-input" />
         )}
