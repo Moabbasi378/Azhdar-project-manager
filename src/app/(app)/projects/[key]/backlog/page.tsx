@@ -67,6 +67,7 @@ export default async function BacklogPage({
       }))}
       epics={epics as BacklogEpic[]}
       canEdit={user.role !== "VIEWER" && access.projectRole !== "VIEWER"}
+      projectId={project.id}
     />
   );
 }

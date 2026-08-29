@@ -19,7 +19,7 @@ export async function GET(
       where: { projectId: id },
       select: {
         role: true,
-        user: { select: { id: true, firstName: true, lastName: true, avatarColor: true, avatarImage: true, avatarIcon: true } },
+        user: { select: { id: true, firstName: true, lastName: true, email: true, avatarColor: true, avatarImage: true, avatarIcon: true } },
       },
     }),
     prisma.sprint.findMany({

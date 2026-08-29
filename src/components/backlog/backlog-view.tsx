@@ -15,7 +15,7 @@ import {
 import { SortableContext, verticalListSortingStrategy, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { toast } from "sonner";
-import { ChevronDown, ChevronLeft, GripVertical, Layers, Target, TriangleAlert } from "lucide-react";
+import { ChevronDown, ChevronLeft, FileSpreadsheet, GripVertical, Layers, Target, TriangleAlert } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -28,6 +28,7 @@ import {
 import { IssueTypeIcon } from "@/components/issues/issue-type-icon";
 import { PriorityIcon } from "@/components/issues/priority-icon";
 import { moveIssue } from "@/actions/issue";
+import { ImportFromExcelDialog } from "@/components/backlog/import-excel-dialog";
 import { orderBetween } from "@/lib/order";
 import { cn } from "@/lib/utils";
 import { toPersianDigits } from "@/lib/jalali";
@@ -51,11 +52,13 @@ export function BacklogView({
   initialSprints,
   epics,
   canEdit,
+  projectId,
 }: {
   initialBacklog: BoardIssue[];
   initialSprints: { sprint: BacklogSprint; issues: BoardIssue[] }[];
   epics: BacklogEpic[];
   canEdit: boolean;
+  projectId: string;
 }) {
   const router = useRouter();
   const [backlog, setBacklog] = useState(initialBacklog);
@@ -229,6 +232,16 @@ export function BacklogView({
             <span className="text-xs text-muted-foreground">
               ({toPersianDigits(backlog.length)} وظیفه)
             </span>
+            {canEdit && (
+              <span className="ms-auto">
+                <ImportFromExcelDialog
+                  projectId={projectId}
+                  sprints={sprints.map((s) => ({ id: s.sprint.id, name: s.sprint.name }))}
+                  defaultTarget={{ kind: "backlog" }}
+                  trigger={<ImportButton />}
+                />
+              </span>
+            )}
           </header>
 
           <BacklogDropArea kind="backlog" sprintId={undefined}>
@@ -287,6 +300,14 @@ export function BacklogView({
                     {toPersianDigits(points)} / {toPersianDigits(SPRINT_CAPACITY)} امتیاز
                   </span>
                   {over && <TriangleAlert className="size-3.5 text-destructive" />}
+                  {canEdit && (
+                    <ImportFromExcelDialog
+                      projectId={projectId}
+                      sprints={sprints.map((s) => ({ id: s.sprint.id, name: s.sprint.name }))}
+                      defaultTarget={{ kind: "sprint", id: sprint.id }}
+                      trigger={<ImportButton />}
+                    />
+                  )}
                 </span>
               </header>
               <div className="mb-2 h-1.5 overflow-hidden rounded-full bg-secondary">
@@ -323,6 +344,18 @@ export function BacklogView({
         )}
       </DragOverlay>
     </DndContext>
+  );
+}
+
+function ImportButton() {
+  return (
+    <button
+      className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+      title="وارد کردن وظایف از Excel"
+      aria-label="وارد کردن وظایف از Excel"
+    >
+      <FileSpreadsheet className="size-3.5" />
+    </button>
   );
 }
 

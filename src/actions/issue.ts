@@ -10,11 +10,13 @@ import { orderAfter, orderBetween } from "@/lib/order";
 import {
   createCommentSchema,
   createIssueSchema,
+  importIssuesSchema,
   logTimeSchema,
   moveIssueSchema,
   updateIssueSchema,
 } from "@/lib/validators";
 import { ISSUE_TYPE_LABELS, PRIORITY_LABELS } from "@/lib/utils";
+import { toPersianDigits } from "@/lib/jalali";
 
 type ActivityCreate = Prisma.ActivityLogCreateManyInput;
 type NotificationInput = {
@@ -134,6 +136,125 @@ export async function createIssue(input: unknown) {
     revalidatePath(`/projects/${access!.project.key}/board`);
     revalidatePath(`/projects/${access!.project.key}/backlog`);
     return { id: issue.id, key: issue.key };
+  });
+}
+
+// ─── Bulk import (e.g. from Excel) ────────────────────────────────
+
+export async function importIssues(input: unknown) {
+  return action(async () => {
+    const user = await requireUserApi();
+    const parsed = importIssuesSchema.parse(input);
+
+    const access = await getProjectAccess(user, parsed.projectId);
+    assert(!!access);
+    assert(can.createIssue(user, access!));
+
+    const sprintId: string | null = parsed.sprintId ?? null;
+    if (sprintId) {
+      const sprint = await prisma.sprint.findFirst({
+        where: { id: sprintId, projectId: parsed.projectId },
+      });
+      if (!sprint) throw new Error("NOT_FOUND");
+    }
+
+    // drop assignees that aren't project members
+    const requestedIds = parsed.issues
+      .map((i) => i.assigneeId)
+      .filter((id): id is string => !!id);
+    let validAssigneeIds = new Set<string>();
+    if (requestedIds.length > 0) {
+      const members = await prisma.projectMember.findMany({
+        where: { projectId: parsed.projectId, userId: { in: requestedIds } },
+        select: { userId: true },
+      });
+      validAssigneeIds = new Set(members.map((m) => m.userId));
+    }
+
+    const defaultStatus = await prisma.projectStatus.findFirst({
+      where: { projectId: parsed.projectId },
+      orderBy: { order: "asc" },
+    });
+
+    const created = await prisma.$transaction(async (tx) => {
+      const project = await tx.project.findUnique({
+        where: { id: parsed.projectId },
+        select: { key: true, issueSeq: true },
+      });
+      if (!project) throw new Error("NOT_FOUND");
+
+      // never reuse a drifted counter (issueSeq stuck at 1 from seeding)
+      let number = project.issueSeq + 1;
+      const agg = await tx.issue.aggregate({
+        where: { projectId: parsed.projectId },
+        _max: { number: true },
+      });
+      if (agg._max.number !== null && agg._max.number >= number) number = agg._max.number + 1;
+
+      const rows: (Prisma.IssueCreateManyInput & { key: string })[] = [];
+      for (const issue of parsed.issues) {
+        const key = `${project.key}-${number}`;
+        rows.push({
+          projectId: parsed.projectId,
+          number,
+          key,
+          title: issue.title,
+          description: issue.description ?? null,
+          type: issue.type,
+          priority: issue.priority,
+          statusId: defaultStatus?.id ?? null,
+          sprintId,
+          assigneeId: issue.assigneeId && validAssigneeIds.has(issue.assigneeId) ? issue.assigneeId : null,
+          reporterId: user.id,
+          storyPoints: issue.storyPoints ?? null,
+          estimatedMinutes: issue.estimatedMinutes ?? null,
+          order: `i${String(number).padStart(8, "0")}`,
+        });
+        number += 1;
+      }
+
+      await tx.issue.createMany({ data: rows });
+      await tx.project.update({
+        where: { id: parsed.projectId },
+        data: { issueSeq: number - 1 },
+      });
+      await tx.activityLog.create({
+        data: {
+          projectId: parsed.projectId,
+          userId: user.id,
+          kind: "CREATED",
+          meta: { source: "import", count: rows.length },
+        },
+      });
+      return rows;
+    });
+
+    // notify new assignees once per person
+    const mentioned = new Map<string, { issueKey: string; title: string }[]>();
+    for (const issue of created) {
+      if (issue.assigneeId && issue.assigneeId !== user.id) {
+        const list = mentioned.get(issue.assigneeId) ?? [];
+        list.push({ issueKey: issue.key, title: issue.title });
+        mentioned.set(issue.assigneeId, list);
+      }
+    }
+    for (const [userId, issues] of mentioned) {
+      await notify({
+        userId,
+        type: "ISSUE_ASSIGNED",
+        body: issues.length === 1
+          ? `«${issues[0].title}» به شما اختصاص یافت.`
+          : `${toPersianDigits(issues.length)} وظیفه به شما اختصاص یافت.`,
+        link: `/projects/${access!.project.key}/board`,
+      });
+    }
+
+    revalidatePath("/dashboard");
+    revalidatePath("/my-work");
+    revalidatePath(`/projects/${access!.project.key}/board`);
+    revalidatePath(`/projects/${access!.project.key}/backlog`);
+    revalidatePath(`/projects/${access!.project.key}/sprints`);
+    return { count: created.length, keys: created.map((c) => c.key) };
   });
 }
 

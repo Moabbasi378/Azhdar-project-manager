@@ -81,6 +81,25 @@ export const moveIssueSchema = z.object({
   afterId: z.string().optional().nullable(),
 });
 
+export const importIssuesSchema = z.object({
+  projectId: z.string().min(1),
+  sprintId: z.string().optional().nullable(),
+  issues: z
+    .array(
+      z.object({
+        title: z.string().trim().min(2, "عنوان وظیفه کوتاه است").max(300),
+        type: z.enum(["EPIC", "STORY", "TASK", "BUG", "SUBTASK"]).default("TASK"),
+        priority: z.enum(["LOW", "MEDIUM", "HIGH", "CRITICAL"]).default("MEDIUM"),
+        storyPoints: z.number().int().min(0, "استوری پوینت نامعتبر است").max(100).nullable().optional(),
+        estimatedMinutes: z.number().int().min(0).nullable().optional(),
+        description: z.string().max(20_000).nullable().optional(),
+        assigneeId: z.string().nullable().optional(),
+      }),
+    )
+    .min(1, "هیچ وظیفه‌ای برای وارد کردن وجود ندارد")
+    .max(500, "حداکثر ۵۰۰ وظیفه در هر بار وارد می‌شود"),
+});
+
 // ─── Sprints ──────────────────────────────────────────────────────
 
 export const createSprintSchema = z.object({
