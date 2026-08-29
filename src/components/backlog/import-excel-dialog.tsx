@@ -83,13 +83,23 @@ export function ImportFromExcelDialog({
     setOpen(next);
   }
 
+  /** Members may still be loading when a file is picked — fetch them on demand. */
+  async function ensureMembers(): Promise<ProjectMember[]> {
+    if (meta?.members) return meta.members;
+    const res = await fetch(`/api/projects/${projectId}/meta`);
+    if (!res.ok) throw new Error("خطا در دریافت اطلاعات پروژه");
+    const data: { members: ProjectMember[] } = await res.json();
+    return data.members;
+  }
+
   async function handleFile(file: File) {
     setFileError(null);
     setImported(null);
     try {
       const buf = await file.arrayBuffer();
+      const members = await ensureMembers();
       const parsed = parseWorkbook(buf);
-      if (meta) resolveAssignees(parsed, meta.members);
+      resolveAssignees(parsed, members);
       setIssues(parsed);
       setFileName(file.name);
       if (parsed.length === 0) setFileError("در فایل هیچ وظیفه‌ای پیدا نشد.");
@@ -305,9 +315,10 @@ export function ImportFromExcelDialog({
   );
 }
 
-function ImportButton() {
+/** Fallback trigger; forwards props so the DialogTrigger can hook the click. */
+function ImportButton(props: React.ComponentProps<typeof Button>) {
   return (
-    <Button type="button" variant="outline" size="sm">
+    <Button type="button" variant="outline" size="sm" {...props}>
       <FileSpreadsheet className="size-4" />
       وارد کردن از Excel
     </Button>

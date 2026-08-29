@@ -347,10 +347,15 @@ export function BacklogView({
   );
 }
 
-function ImportButton() {
+/** Trigger for the import dialog; forwards props so the DialogTrigger can hook the click. */
+function ImportButton({ className, ...props }: React.ComponentProps<"button">) {
   return (
     <button
-      className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+      {...props}
+      className={cn(
+        "flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground",
+        className,
+      )}
       title="وارد کردن وظایف از Excel"
       aria-label="وارد کردن وظایف از Excel"
     >
