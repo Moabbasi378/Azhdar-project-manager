@@ -39,11 +39,17 @@ export default async function ProjectReportsPage({
   });
 
   const burndown: Record<string, { day: string; ideal: number; actual: number | null }[]> = {};
+  const burndownUnit: Record<string, "POINTS" | "ISSUES"> = {};
   for (const sprint of sprints) {
     if (!sprint.startDate || !sprint.endDate) continue;
     const topIssues = sprint.issues.filter((i) => !i.parentId);
-    const totalPoints = topIssues.reduce((sum, i) => sum + (i.storyPoints ?? 0), 0);
-    if (totalPoints === 0) continue;
+    if (topIssues.length === 0) continue;
+
+    // sprints without story points still get a burndown, counted in issues
+    const usePoints = topIssues.some((i) => typeof i.storyPoints === "number");
+    const unitOf = (i: (typeof topIssues)[number]) => (usePoints ? i.storyPoints ?? 0 : 1);
+    const total = topIssues.reduce((sum, i) => sum + unitOf(i), 0);
+    if (total === 0) continue;
 
     const start = new Date(sprint.startDate);
     const end = new Date(sprint.endDate);
@@ -54,7 +60,7 @@ export default async function ProjectReportsPage({
         ? Math.min(totalDays, Math.ceil((end.getTime() - start.getTime()) / DAY))
         : Math.max(0, Math.floor((today.getTime() - start.getTime()) / DAY));
 
-    // points completed per absolute day offset
+    // work completed per absolute day offset
     const doneByOffset = new Map<number, number>();
     for (const issue of topIssues) {
       if (issue.status?.category !== "DONE" || !issue.completedAt) continue;
@@ -62,34 +68,41 @@ export default async function ProjectReportsPage({
         0,
         Math.min(totalDays, Math.floor((issue.completedAt.getTime() - start.getTime()) / DAY)),
       );
-      doneByOffset.set(offset, (doneByOffset.get(offset) ?? 0) + (issue.storyPoints ?? 0));
+      doneByOffset.set(offset, (doneByOffset.get(offset) ?? 0) + unitOf(issue));
     }
 
     const series: { day: string; ideal: number; actual: number | null }[] = [];
     let cumulativeDone = 0;
     for (let d = 0; d <= totalDays; d++) {
-      const ideal = Math.max(0, Math.round(((totalDays - d) / totalDays) * totalPoints));
+      const ideal = Math.max(0, Math.round(((totalDays - d) / totalDays) * total));
       let actual: number | null = null;
       if (d <= lastDay) {
         cumulativeDone += doneByOffset.get(d) ?? 0;
-        actual = totalPoints - cumulativeDone;
+        actual = total - cumulativeDone;
       }
       series.push({ day: String(d), ideal, actual });
     }
     burndown[sprint.id] = series;
+    burndownUnit[sprint.id] = usePoints ? "POINTS" : "ISSUES";
   }
 
+  // fall back to issue counts when no sprint in the project uses story points
+  const velocityUsesPoints = sprints.some((s) =>
+    s.issues.some((i) => !i.parentId && typeof i.storyPoints === "number"),
+  );
   const velocity: VelocityPoint[] = sprints
     .filter((s) => s.state === "COMPLETED")
     .reverse()
     .map((s) => {
       const topIssues = s.issues.filter((i) => !i.parentId);
+      const unitOf = (i: (typeof topIssues)[number]) =>
+        velocityUsesPoints ? i.storyPoints ?? 0 : 1;
       return {
         name: s.name,
-        committed: topIssues.reduce((sum, i) => sum + (i.storyPoints ?? 0), 0),
+        committed: topIssues.reduce((sum, i) => sum + unitOf(i), 0),
         completed: topIssues
           .filter((i) => i.status?.category === "DONE")
-          .reduce((sum, i) => sum + (i.storyPoints ?? 0), 0),
+          .reduce((sum, i) => sum + unitOf(i), 0),
       };
     });
 
@@ -105,7 +118,9 @@ export default async function ProjectReportsPage({
           endDate: s.endDate?.toISOString() ?? null,
         }))}
         burndown={burndown}
+        burndownUnit={burndownUnit}
         velocity={velocity}
+        velocityUnit={velocityUsesPoints ? "POINTS" : "ISSUES"}
       />
     </div>
   );

@@ -57,6 +57,7 @@ export default async function SprintsPage({
   return (
     <SprintsView
       projectId={project.id}
+      projectKey={project.key}
       initialSprints={rows}
       canManage={user.role !== "VIEWER" && access.projectRole !== "VIEWER"}
     />

@@ -1,9 +1,20 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { CalendarDays, Flag, Pencil, Play, Plus, Target, Trash2, TriangleAlert } from "lucide-react";
+import {
+  CalendarDays,
+  ChartLine,
+  Flag,
+  Pencil,
+  Play,
+  Plus,
+  Target,
+  Trash2,
+  TriangleAlert,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -46,10 +57,12 @@ const STATE_BADGE: Record<SprintRow["state"], { label: string; variant: "success
 
 export function SprintsView({
   projectId,
+  projectKey,
   initialSprints,
   canManage,
 }: {
   projectId: string;
+  projectKey: string;
   initialSprints: SprintRow[];
   canManage: boolean;
 }) {
@@ -101,6 +114,7 @@ export function SprintsView({
         <SprintCard
           key={sprint.id}
           sprint={sprint}
+          reportHref={`/projects/${projectKey}/sprints/${sprint.id}`}
           canManage={canManage}
           onStart={() => setStartTarget(sprint)}
           onComplete={() => setCompleteTarget(sprint)}
@@ -202,6 +216,7 @@ function plusDaysISO(days: number): string {
 
 function SprintCard({
   sprint,
+  reportHref,
   canManage,
   onStart,
   onComplete,
@@ -209,6 +224,7 @@ function SprintCard({
   onDelete,
 }: {
   sprint: SprintRow;
+  reportHref: string;
   canManage: boolean;
   onStart: () => void;
   onComplete: () => void;
@@ -235,6 +251,11 @@ function SprintCard({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link href={reportHref}>
+                  <ChartLine /> گزارش کامل اسپرینت
+                </Link>
+              </DropdownMenuItem>
               {sprint.state === "PLANNED" && (
                 <DropdownMenuItem onSelect={onStart}>
                   <Play /> شروع اسپرینت
@@ -287,16 +308,23 @@ function SprintCard({
         </div>
       )}
 
-      {canManage && sprint.state === "PLANNED" && (
-        <Button size="sm" className="mt-3" onClick={onStart}>
-          <Play /> شروع اسپرینت
+      <div className="mt-3 flex flex-wrap gap-2">
+        <Button size="sm" variant="outline" asChild>
+          <Link href={reportHref}>
+            <ChartLine /> گزارش کامل
+          </Link>
         </Button>
-      )}
-      {canManage && sprint.state === "ACTIVE" && (
-        <Button size="sm" variant="outline" className="mt-3" onClick={onComplete}>
-          <Flag /> تکمیل اسپرینت
-        </Button>
-      )}
+        {canManage && sprint.state === "PLANNED" && (
+          <Button size="sm" onClick={onStart}>
+            <Play /> شروع اسپرینت
+          </Button>
+        )}
+        {canManage && sprint.state === "ACTIVE" && (
+          <Button size="sm" variant="outline" onClick={onComplete}>
+            <Flag /> تکمیل اسپرینت
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

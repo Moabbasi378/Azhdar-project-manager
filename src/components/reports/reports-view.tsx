@@ -28,12 +28,17 @@ export type VelocityPoint = { name: string; completed: number; committed: number
 export function ReportsView({
   sprints,
   burndown,
+  burndownUnit = {},
   velocity,
+  velocityUnit = "POINTS",
 }: {
   sprints: BurndownSprint[];
   /** per selected sprint: [{dayLabel, ideal, actual}] */
   burndown: Record<string, { day: string; ideal: number; actual: number | null }[]>;
+  /** per sprint: "POINTS" when it has story points, otherwise "ISSUES" */
+  burndownUnit?: Record<string, "POINTS" | "ISSUES">;
   velocity: VelocityPoint[];
+  velocityUnit?: "POINTS" | "ISSUES";
 }) {
   const withBurndown = sprints.filter((s) => burndown[s.id]?.length);
   const [selectedId, setSelectedId] = useState(
@@ -41,6 +46,8 @@ export function ReportsView({
   );
   const data = useMemo(() => burndown[selectedId] ?? [], [burndown, selectedId]);
   const selected = sprints.find((s) => s.id === selectedId);
+  const burndownLabel =
+    burndownUnit[selectedId] === "ISSUES" ? "وظیفه باقی‌مانده" : "امتیاز باقی‌مانده";
 
   const fa = (v: number | string) => toPersianDigits(v);
 
@@ -72,7 +79,7 @@ export function ReportsView({
 
       {/* Burndown */}
       <section>
-        <h3 className="mb-3 text-sm font-semibold">نمودار بِرنداون (امتیاز باقی‌مانده)</h3>
+        <h3 className="mb-3 text-sm font-semibold">نمودار بِرنداون ({burndownLabel})</h3>
         {data.length === 0 ? (
           <p className="rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
             برای این اسپرینت داده‌ای وجود ندارد.
@@ -105,7 +112,9 @@ export function ReportsView({
 
       {/* Velocity */}
       <section>
-        <h3 className="mb-3 text-sm font-semibold">سرعت تیم در اسپرینت‌ها (استوری پوینت)</h3>
+        <h3 className="mb-3 text-sm font-semibold">
+          سرعت تیم در اسپرینت‌ها ({velocityUnit === "ISSUES" ? "تعداد وظایف" : "استوری پوینت"})
+        </h3>
         {velocity.length === 0 ? (
           <p className="rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
             هنوز اسپرینت تکمیل‌شده‌ای وجود ندارد.
